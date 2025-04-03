@@ -1,6 +1,5 @@
 from advanced_search import advanced_search
 from get_nutritional_info import get_nutritional_info
-from class_def import TrackableNutritionalInfo
 
 test_food_id = 4066
 

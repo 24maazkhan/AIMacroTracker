@@ -1,7 +1,7 @@
 import mysql.connector
 import pandas as pd
 from config import host, user, password, database, port
-from class_def import TrackableNutritionalInfo
+from class_def import FoodItemNutrition
 
 def get_db_connection():
     try:
@@ -66,7 +66,7 @@ def get_nutritional_info(food_id):
             food_description = "Unknown Food"
 
         # Initialize Object
-        nutritional_info = TrackableNutritionalInfo(food_id, food_description)
+        nutritional_info = FoodItemNutrition(food_id, food_description)
 
         # Populate Object with Nutrient Values
         for nutrient_id, nutrient_value in results:
