@@ -1,7 +1,6 @@
 import mysql.connector
 import pandas as pd
 from config import host, user, password, database, port
-from class_def import FoodItemNutrition
 
 def get_db_connection():
     try:
@@ -20,7 +19,8 @@ def get_db_connection():
 # Load food description data
 df_food = pd.read_csv("food_name.csv", encoding="ISO-8859-1")
 
-def get_nutritional_info(food_id):
+def get_nutritional_info(food_id, multiplier=1):
+    from class_def import FoodItemNutrition
     conn = get_db_connection()
     try:
         cursor = conn.cursor()
@@ -73,6 +73,9 @@ def get_nutritional_info(food_id):
             attribute_name = nutrient_mapping.get(nutrient_id)
             if attribute_name:
                 setattr(nutritional_info, attribute_name, nutrient_value)
+
+        # Apply multiplier to adjust the nutrient values
+        nutritional_info.apply_multiplier(multiplier)
 
         return nutritional_info
 

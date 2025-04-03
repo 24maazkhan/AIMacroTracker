@@ -1,5 +1,5 @@
 import pandas as pd
-
+from get_nutritional_info import get_nutritional_info
 # Read CSV
 nutrient_names_df = pd.read_csv("nutrient_name.csv", encoding="ISO-8859-1")
 
@@ -36,6 +36,28 @@ class FoodItemNutrition:
         self.total_saturated_fatty_acids = None
         self.retinol_activity_equivalents = None
         self.nutrient_units = NutrientUnits()  # Store the units here
+
+    def apply_multiplier(self, multiplier):
+        self.protein *= multiplier
+        self.total_fat *= multiplier
+        self.total_carbohydrate *= multiplier
+        self.energy_kilocalories *= multiplier
+        self.total_sugars *= multiplier
+        self.total_dietary_fiber *= multiplier
+        self.calcium *= multiplier
+        self.iron *= multiplier
+        self.magnesium *= multiplier
+        self.potassium *= multiplier
+        self.sodium *= multiplier
+        self.alpha_tocopherol *= multiplier
+        self.vitamin_d *= multiplier
+        self.vitamin_c *= multiplier
+        self.total_folacin *= multiplier
+        self.vitamin_b12 *= multiplier
+        self.vitamin_k *= multiplier
+        self.total_trans_fatty_acids *= multiplier
+        self.total_saturated_fatty_acids *= multiplier
+        self.retinol_activity_equivalents *= multiplier
 
     def __repr__(self):
         return (f"Nutritional Information for FoodID {self.food_id}:\n"
@@ -83,3 +105,5 @@ class NutrientUnits:
         self.total_trans_fatty_acids = "g"
         self.total_saturated_fatty_acids = "g"
         self.retinol_activity_equivalents = "µg"  # Vitamin A
+
+
