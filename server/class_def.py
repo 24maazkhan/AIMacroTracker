@@ -31,6 +31,7 @@ class TrackableNutritionalInfo:
         self.vitamin_c = None
         self.total_folacin = None
         self.vitamin_b12 = None
+        self.vitamin_k = None
         self.total_trans_fatty_acids = None
         self.total_saturated_fatty_acids = None
         self.retinol_activity_equivalents = None
@@ -49,11 +50,35 @@ class TrackableNutritionalInfo:
                 f"Magnesium: {self.magnesium} mg\n"
                 f"Potassium: {self.potassium} mg\n"
                 f"Sodium: {self.sodium} mg\n"
+                f"Vitamin E: {self.alpha_tocopherol} mg\n"
                 f"Vitamin C: {self.vitamin_c} mg\n"
                 f"Vitamin D: {self.vitamin_d} IU\n"
                 f"Folate: {self.total_folacin} µg\n"
                 f"Vitamin B12: {self.vitamin_b12} µg\n"
+                f"Vitamin K: {self.vitamin_k} g\n"
                 f"Trans Fats: {self.total_trans_fatty_acids} g\n"
                 f"Saturated Fats: {self.total_saturated_fatty_acids} g\n"
-                f"Retinol Activity Equivalents: {self.retinol_activity_equivalents} µg")
+                f"Vitamin A: {self.retinol_activity_equivalents} µg")
 
+class NutrientUnits:
+    def __init__(self):
+        self.protein = "g"
+        self.total_fat = "g"
+        self.total_carbohydrate = "g"
+        self.energy_kilocalories = "kcal"
+        self.total_sugars = "g"
+        self.total_dietary_fiber = "g"
+        self.calcium = "mg"
+        self.iron = "mg"
+        self.magnesium = "mg"
+        self.potassium = "mg"
+        self.sodium = "mg"
+        self.alpha_tocopherol = "mg"  # Vitamin E
+        self.vitamin_d = "IU"
+        self.vitamin_c = "mg"
+        self.total_folacin = "µg" # Folate
+        self.vitamin_b12 = "µg"
+        self.vitamin_k = "g"
+        self.total_trans_fatty_acids = "g"
+        self.total_saturated_fatty_acids = "g"
+        self.retinol_activity_equivalents = "µg"  # Vitamin A

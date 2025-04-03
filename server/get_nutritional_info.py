@@ -25,7 +25,7 @@ def get_nutritional_info(food_id):
     try:
         cursor = conn.cursor()
 
-        # Define NutrientID mappings to class attributes
+        # Define NutrientID Mappings to Class
         nutrient_mapping = {
             203: "protein",
             204: "total_fat",
@@ -49,7 +49,7 @@ def get_nutritional_info(food_id):
             814: "retinol_activity_equivalents"
         }
 
-        # Query for nutrient values
+        # Query For Nutrient Values
         query = f"""
             SELECT NutrientID, NutrientValue
             FROM nutrient_amount
@@ -58,17 +58,17 @@ def get_nutritional_info(food_id):
         cursor.execute(query, (food_id, *nutrient_mapping.keys()))
         results = cursor.fetchall()
 
-        # Retrieve food description and reformat it
+        # Retrieve Food Description
         food_desc_row = df_food[df_food["FoodID"] == food_id]
         if not food_desc_row.empty:
             food_description = food_desc_row.iloc[0]["FoodDescription"]
         else:
             food_description = "Unknown Food"
 
-        # Initialize the TrackableNutritionalInfo object
+        # Initialize Object
         nutritional_info = TrackableNutritionalInfo(food_id, food_description)
 
-        # Populate the object with retrieved values
+        # Populate Object with Nutrient Values
         for nutrient_id, nutrient_value in results:
             attribute_name = nutrient_mapping.get(nutrient_id)
             if attribute_name:
