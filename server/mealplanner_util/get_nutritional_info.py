@@ -20,7 +20,7 @@ def get_db_connection():
 df_food = pd.read_csv("food_name.csv", encoding="ISO-8859-1")
 
 def get_nutritional_info(food_id, multiplier=1):
-    from class_def import FoodItemNutrition
+    from mealplanner_util.class_def import FoodItemNutrition
     conn = get_db_connection()
     try:
         cursor = conn.cursor()

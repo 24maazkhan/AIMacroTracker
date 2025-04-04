@@ -1,5 +1,5 @@
 import pandas as pd
-from class_def import FoodItem
+from mealplanner_util.class_def import FoodItem
 
 # Load the CSV with the correct encoding
 df = pd.read_csv("food_name.csv", encoding="ISO-8859-1")

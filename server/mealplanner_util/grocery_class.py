@@ -1,4 +1,4 @@
-from get_nutritional_info import get_nutritional_info
+from mealplanner_util.get_nutritional_info import get_nutritional_info
 
 class GroceryList:
     def __init__(self):

@@ -1,7 +1,7 @@
 import openai
 import json
 from config import openai_api_key
-from openai_prompt import generate_meal_planner_prompt
+from mealplanner_util.openai_prompt import generate_meal_planner_prompt
 
 def clean_response(raw):
     if raw.startswith("```"):

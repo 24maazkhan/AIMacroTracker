@@ -1,5 +1,5 @@
 import pandas as pd
-from get_nutritional_info import get_nutritional_info
+from mealplanner_util.get_nutritional_info import get_nutritional_info
 # Read CSV
 nutrient_names_df = pd.read_csv("nutrient_name.csv", encoding="ISO-8859-1")
 

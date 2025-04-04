@@ -1,33 +1,24 @@
-import asyncio
-from grocery_class import GroceryList
-from mealplanner import get_meal_plan
+import requests
+import json
 
-async def main():
-    # Build your grocery list
-    grocery_list = GroceryList()
-    grocery_list.append(food_id=4066)
-    grocery_list.append(food_id=125)
-    grocery_list.append(food_id=502435)
-    grocery_list.append(food_id=5841)
-    grocery_list.append(food_id=5284)
-    grocery_list.append(food_id=2140)
-    grocery_list.append(food_id=4471)
-    grocery_list.append(food_id=502484)
-    grocery_list.append(food_id=119)
-    grocery_list.append(food_id=2460)
+url = "http://127.0.0.1:8000/meal_plan"
 
-    # Define macro targets
-    macro_targets = {
+data = {
+    "food_ids": [4066, 125, 502435, 5841, 5284, 2140, 4471, 502484, 119, 2460],
+    "macro_targets": {
         "calories": 2100,
         "protein": 150,
         "fat": 70,
         "carbohydrates": 250
     }
+}
 
-    # Get the meal plan using the asynchronous function
-    meal_plan = await get_meal_plan(grocery_list, macro_targets)
-    print("\nFinal Meal Plan Object:")
-    print(meal_plan)
-
-# Run the async main function
-asyncio.run(main())
+# Send the POST request
+response = requests.post(url, json=data)
+print("Status Code:", response.status_code)
+try:
+    data = response.json()
+    print("Response JSON:")
+    print(json.dumps(data, indent=2))
+except Exception as e:
+    print("Error parsing response:", e)
