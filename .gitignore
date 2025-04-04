@@ -46,3 +46,5 @@
 cmdprompts.txt
 # This file is used to store the command prompts.
 /server/config.py
+
+/server/__pycache__/

@@ -2,13 +2,12 @@ from get_nutritional_info import get_nutritional_info
 
 class GroceryList:
     def __init__(self):
-        self.items = []  # List to store dictionaries with food_item and food_id
+        self.items = []  # List to store dictionaries with "food_item" and "food_id"
 
-    def append(self, food_id, multiplier_factor=1):
-        # Get the FoodItemNutrition object with the multiplier already applied
-        food_item_nutrition = get_nutritional_info(food_id, multiplier_factor)
-
-        # Store the FoodItemNutrition object along with food_id (multiplier is already applied)
+    def append(self, food_id):
+        # Get the FoodItemNutrition object (with multiplier already applied as 1)
+        food_item_nutrition = get_nutritional_info(food_id, multiplier=1)
+        # Store the object along with food_id
         self.items.append({
             "food_item": food_item_nutrition,
             "food_id": food_id
@@ -22,7 +21,7 @@ class GroceryList:
         total_energy = sum(item["food_item"].energy_kilocalories for item in self.items if item["food_item"].energy_kilocalories is not None)
         total_sugars = sum(item["food_item"].total_sugars for item in self.items if item["food_item"].total_sugars is not None)
         total_fiber = sum(item["food_item"].total_dietary_fiber for item in self.items if item["food_item"].total_dietary_fiber is not None)
-        
+
         return {
             "total_protein": total_protein,
             "total_fat": total_fat,
@@ -52,3 +51,12 @@ class GroceryList:
                 f"Total Energy: {total_macros['total_energy_kcal']} kcal\n"
                 f"Total Sugars: {total_macros['total_sugars']} g\n"
                 f"Total Dietary Fiber: {total_macros['total_dietary_fiber']} g")
+
+    def to_dict(self):
+        # Convert each food item to a dictionary using its own to_dict() method.
+        return {
+            "items": [
+                {"food_id": item["food_id"], **item["food_item"].to_dict()}
+                for item in self.items
+            ]
+        }

@@ -1,25 +1,33 @@
-from advanced_search import advanced_search
+import asyncio
 from grocery_class import GroceryList
+from mealplanner import get_meal_plan
 
-grocery_list = GroceryList()
-grocery_list.append(food_id=4066, multiplier_factor=2)
-grocery_list.append(food_id=5, multiplier_factor=1)
+async def main():
+    # Build your grocery list
+    grocery_list = GroceryList()
+    grocery_list.append(food_id=4066)
+    grocery_list.append(food_id=125)
+    grocery_list.append(food_id=502435)
+    grocery_list.append(food_id=5841)
+    grocery_list.append(food_id=5284)
+    grocery_list.append(food_id=2140)
+    grocery_list.append(food_id=4471)
+    grocery_list.append(food_id=502484)
+    grocery_list.append(food_id=119)
+    grocery_list.append(food_id=2460)
 
-# Get a specific item by food_id
-item = grocery_list[4066]  # This will return the item with food_id 1
-if item:
-    print(item['food_item'])  # Print food item details
-else:
-    print("Food item not found")
-item2 = grocery_list[5]
-print("\n")
-if item2:
-    print(item2['food_item'])  # Print food item details
-else:
-    print("Food item not found")
-# Delete an item by food_id
-grocery_list.delete(5)  # This will remove the item with food_id 1
-print("\n")
-# Print the grocery list summary
-print(grocery_list)
+    # Define macro targets
+    macro_targets = {
+        "calories": 2100,
+        "protein": 150,
+        "fat": 70,
+        "carbohydrates": 250
+    }
 
+    # Get the meal plan using the asynchronous function
+    meal_plan = await get_meal_plan(grocery_list, macro_targets)
+    print("\nFinal Meal Plan Object:")
+    print(meal_plan)
+
+# Run the async main function
+asyncio.run(main())

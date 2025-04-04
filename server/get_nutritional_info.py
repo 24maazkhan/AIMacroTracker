@@ -25,31 +25,17 @@ def get_nutritional_info(food_id, multiplier=1):
     try:
         cursor = conn.cursor()
 
-        # Define NutrientID Mappings to Class
+        # Define NutrientID Mappings for the six metrics only
         nutrient_mapping = {
             203: "protein",
             204: "total_fat",
             205: "total_carbohydrate",
             208: "energy_kilocalories",
             269: "total_sugars",
-            291: "total_dietary_fiber",
-            301: "calcium",
-            303: "iron",
-            304: "magnesium",
-            306: "potassium",
-            307: "sodium",
-            323: "alpha_tocopherol",
-            324: "vitamin_d",
-            401: "vitamin_c",
-            417: "total_folacin",
-            418: "vitamin_b12",
-            430: "vitamin_k",
-            605: "total_trans_fatty_acids",
-            606: "total_saturated_fatty_acids",
-            814: "retinol_activity_equivalents"
+            291: "total_dietary_fiber"
         }
 
-        # Query For Nutrient Values
+        # Query for Nutrient Values for the selected metrics
         query = f"""
             SELECT NutrientID, NutrientValue
             FROM nutrient_amount
@@ -58,17 +44,17 @@ def get_nutritional_info(food_id, multiplier=1):
         cursor.execute(query, (food_id, *nutrient_mapping.keys()))
         results = cursor.fetchall()
 
-        # Retrieve Food Description
+        # Retrieve Food Description from the CSV
         food_desc_row = df_food[df_food["FoodID"] == food_id]
         if not food_desc_row.empty:
             food_description = food_desc_row.iloc[0]["FoodDescription"]
         else:
             food_description = "Unknown Food"
 
-        # Initialize Object
+        # Initialize FoodItemNutrition Object
         nutritional_info = FoodItemNutrition(food_id, food_description)
 
-        # Populate Object with Nutrient Values
+        # Populate the object with retrieved nutrient values
         for nutrient_id, nutrient_value in results:
             attribute_name = nutrient_mapping.get(nutrient_id)
             if attribute_name:
