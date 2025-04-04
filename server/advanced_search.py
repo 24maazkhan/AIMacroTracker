@@ -11,6 +11,3 @@ def advanced_search(query):
     # Return Food Items List
     food_items = [FoodItem(food_id=row["FoodID"], description=row["FoodDescription"]) for _, row in results.iterrows()]
     return food_items
-
-food = advanced_search("tomato ripe")
-print(food)
