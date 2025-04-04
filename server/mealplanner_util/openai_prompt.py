@@ -19,9 +19,9 @@ Using the above grocery list and daily macro targets, please generate a weekly m
 For each meal option, assign a key (e.g., "breakfast_1", "lunch_2", etc.) and specify:
 - "meal_name": a descriptive name for the meal (e.g., "Hearty Oatmeal Breakfast")
 - "number_of_days": either 3 or 4 (depending on how many days that option will be served during the week)
-- "ingredients": an array of objects, each containing "food_id" and a "multiplier_factor" (where each multiplier factor represents how many 100g portions to use)
+- "ingredients": an array of objects, each containing "food_id", "description", and "multiplier_factor". The "multiplier_factor" for each ingredient should represent the quantity (in 100g servings) required for one serving of that meal.
 
-Also, provide a "grocery_quantity_list" that aggregates the total multiplier_factor needed for each food_id over the entire week.
+Also, provide a "grocery_quantity_list" that aggregates the total multiplier_factor needed for each food item over the entire week. For each food item in this list, the multiplier_factor should be calculated as the sum across all meal options of (multiplier_factor for that ingredient * number_of_days for that meal).
 
 Important:
 - Basic pantry items such as spices, salt, and oil should not be factored into the meal plan calculations.
@@ -32,7 +32,7 @@ Important:
     "meal_name": <string>,
     "number_of_days": <3 or 4>,
     "ingredients": [
-      {{ "food_id": <id>, "multiplier_factor": <multiplier> }},
+      {{ "food_id": <id>, "description": <string>, "multiplier_factor": <multiplier> }},
       ...
     ]
   }},
@@ -42,7 +42,7 @@ Important:
   "dinner_1": {{ ... }},
   "dinner_2": {{ ... }},
   "grocery_quantity_list": [
-    {{ "food_id": <id>, "multiplier_factor": <total_multiplier> }},
+    {{ "food_id": <id>, "description": <string>, "multiplier_factor": <total_multiplier> }},
     ...
   ]
 }}
@@ -50,6 +50,6 @@ Important:
 Note: Wherever you see <...>, please assume that the structure continues in the same format as shown above.
 Please return only raw JSON. Do not wrap it in triple backticks or add any extra commentary.
 
-Ensure that when these meals are combined over the week, the total nutritional intake meets or closely approximates the daily macro targets provided. Assume that each multiplier factor represents a 100g serving of that food item.
+Ensure that when these meals are combined over the week, the total nutritional intake meets or closely approximates the daily macro targets provided. Assume that each multiplier factor in the meal ingredients represents the quantity for one serving, and the grocery_quantity_list multiplier factors account for the number of days each meal is served.
 """
     return prompt
