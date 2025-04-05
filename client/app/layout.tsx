@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { GroceryListProvider } from "@/context/GroceryListContext";
+import { MacroGoalsProvider } from "@/context/MacroGoalsContext";
+
 import "./globals.css";
 
 const geistSans = Geist({
@@ -26,9 +28,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <GroceryListProvider>
-          {children}
-        </GroceryListProvider>
+        <MacroGoalsProvider>
+          <GroceryListProvider>
+            {children}
+          </GroceryListProvider>
+        </MacroGoalsProvider>     
       </body>
     </html>
   );

@@ -10,6 +10,7 @@ import {
   CardContent,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { useMacroGoals } from "@/context/MacroGoalsContext";
 
 export default function MacroSetter() {
   const [calories, setCalories] = useState<number | "">("");
@@ -17,11 +18,15 @@ export default function MacroSetter() {
   const [fat, setFat] = useState<number | "">("");
   const [carbs, setCarbs] = useState<number | "">("");
 
+  const [confirmation, setConfirmation] = useState(false);
+
   const handleNumberInput = (value: string, setter: (val: number | "") => void) => {
     const numberValue = Number(value);
     if (numberValue < 0) return; // Prevent negatives
     setter(numberValue === 0 ? "" : numberValue);
   };
+
+  const { setMacroGoals } = useMacroGoals();
 
   const handleSubmit = () => {
     try {
@@ -32,9 +37,14 @@ export default function MacroSetter() {
         carbs: carbs || undefined,
       });
 
+      setMacroGoals(finalMacros);
+      setConfirmation(true);
+
       console.log("Final macro goals:", finalMacros);
 
-      // ✅ TODO: Hook this to global context!
+      setTimeout(() => {
+        setConfirmation(false);
+      }, 2000);
     } catch (error) {
       console.error(error);
     }
@@ -92,7 +102,10 @@ export default function MacroSetter() {
             />
           </label>
         </div>
-        <Button onClick={handleSubmit}>Save Goals</Button>
+        <div className="flex items-center gap-2">
+          <Button onClick={handleSubmit}>Save Goals</Button>
+          {confirmation && <span className="text-green-600 text-sm">Goals saved ✅</span>}
+        </div>
       </CardContent>
     </Card>
   );
