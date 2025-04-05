@@ -48,3 +48,4 @@ cmdprompts.txt
 /server/config.py
 
 /server/__pycache__/
+/server/mealplanner/__pycache__/
