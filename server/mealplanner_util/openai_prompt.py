@@ -2,16 +2,16 @@ import json
 
 def generate_meal_planner_prompt(grocery_list, macro_targets):
     prompt = f"""
-Below is a list of available grocery items along with their nutritional information per 100g. Each food item includes values for protein, fat, carbohydrates, energy (kcal), sugars, and dietary fiber. Also provided are the daily macro targets that must be met as closely as possible.
+Below is a list of available grocery items along with their nutritional information per 100g. Each food item includes values for protein, fat, carbohydrates, energy (kcal), sugars, and dietary fiber. Also provided are the daily macro targets that must be strictly met or slightly exceeded.
 
 Grocery List (each food item is for a 100g serving):
 {json.dumps(grocery_list.to_dict(), indent=2)}
 
-Daily Macro Targets:
+Daily Macro Targets (per day):
 {json.dumps(macro_targets, indent=2)}
 
 Task:
-Using the above grocery list and daily macro targets, please generate a weekly meal plan that includes 6 different meal options:
+Using the above grocery list and daily macro targets, please generate a weekly meal plan that includes exactly 6 different meal options:
 - 2 breakfast options
 - 2 lunch options
 - 2 dinner options
@@ -24,6 +24,14 @@ For each meal option, assign a key (e.g., "breakfast_1", "lunch_2", etc.) and sp
 Also, provide a "grocery_quantity_list" that aggregates the total multiplier_factor needed for each food item over the entire week. For each food item in this list, the multiplier_factor should be calculated as the sum across all meal options of (multiplier_factor for that ingredient * number_of_days for that meal).
 
 Important:
+- ✅ Before finalizing your output, you must carefully calculate and confirm:
+  - The total daily intake (calories, protein, fat, carbohydrates) across all meals served each day **meets or exceeds the daily macro targets**.
+  - The weekly grocery_quantity_list accurately reflects the aggregation of ingredients across the week's plan.
+- ✅ Always ensure your meal plan hits at least the daily macro targets. **It is acceptable and even preferable to slightly exceed the targets to ensure adequacy, but never fall below.**
+- ✅ Always produce a meal plan, even if you need to repeat ingredients or increase quantities to meet the targets.
+- ✅ Double-check all internal calculations before providing the final JSON output.
+
+Additional notes:
 - Basic pantry items such as spices, salt, and oil should not be factored into the meal plan calculations.
 - Please output your answer in the following exact JSON structure:
 
@@ -47,9 +55,9 @@ Important:
   ]
 }}
 
-Note: Wherever you see <...>, please assume that the structure continues in the same format as shown above.
+Note: Wherever you see <...>, assume the structure continues in the same format.
 Please return only raw JSON. Do not wrap it in triple backticks or add any extra commentary.
 
-Ensure that when these meals are combined over the week, the total nutritional intake meets or closely approximates the daily macro targets provided. Assume that each multiplier factor in the meal ingredients represents the quantity for one serving, and the grocery_quantity_list multiplier factors account for the number of days each meal is served.
+Finally, ensure that when these meals are combined over the week, the total nutritional intake **meets or exceeds** the daily macro targets provided. If necessary, adjust ingredient quantities or increase portions to achieve this goal.
 """
     return prompt

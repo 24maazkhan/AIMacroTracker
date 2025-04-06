@@ -22,12 +22,12 @@ async def get_meal_plan(grocery_list, macro_targets):
     
     # Call the OpenAI API using the async client
     response = await client.chat.completions.create(
-        model="gpt-3.5-turbo",
+        model="gpt-4-turbo-2024-04-09",
         messages=[
             {"role": "system", "content": "You are an assistant that generates weekly meal plans in JSON format."},
             {"role": "user", "content": prompt}
         ],
-        temperature=0.6,
+        temperature=0.4,
     )
     
     # Extract the output content from the API response
