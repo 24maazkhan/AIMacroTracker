@@ -2,7 +2,7 @@ import json
 
 def generate_meal_planner_prompt(grocery_list, macro_targets):
     prompt = f"""
-Below is a list of available grocery items along with their nutritional information per 100g. Each food item includes values for protein, fat, carbohydrates, energy (kcal), sugars, and dietary fiber. Also provided are the daily macro targets that must be strictly met or slightly exceeded.
+Below is a list of available grocery items along with their nutritional information per 100g. Each food item includes values for protein, fat, carbohydrates, energy (kcal), sugars, and dietary fiber. Also provided are the daily macro targets that should be met as precisely as possible without significant overshooting.
 
 Grocery List (each food item is for a 100g serving):
 {json.dumps(grocery_list.to_dict(), indent=2)}
@@ -25,10 +25,10 @@ Also, provide a "grocery_quantity_list" that aggregates the total multiplier_fac
 
 Important:
 - ✅ Before finalizing your output, you must carefully calculate and confirm:
-  - The total daily intake (calories, protein, fat, carbohydrates) across all meals served each day **meets or exceeds the daily macro targets**.
+  - The total daily intake (calories, protein, fat, carbohydrates) across all meals served each day is as close as possible to the daily macro targets.
   - The weekly grocery_quantity_list accurately reflects the aggregation of ingredients across the week's plan.
-- ✅ Always ensure your meal plan hits at least the daily macro targets. **It is acceptable and even preferable to slightly exceed the targets to ensure adequacy, but never fall below.**
-- ✅ Always produce a meal plan, even if you need to repeat ingredients or increase quantities to meet the targets.
+- ✅ Always ensure your meal plan aligns closely with the daily macro targets. **Aim to meet the targets with minimal excess, and avoid significantly overshooting them.**
+- ✅ Always produce a meal plan, even if you need to repeat ingredients or adjust quantities to meet the targets.
 - ✅ Double-check all internal calculations before providing the final JSON output.
 
 Additional notes:
@@ -58,6 +58,6 @@ Additional notes:
 Note: Wherever you see <...>, assume the structure continues in the same format.
 Please return only raw JSON. Do not wrap it in triple backticks or add any extra commentary.
 
-Finally, ensure that when these meals are combined over the week, the total nutritional intake **meets or exceeds** the daily macro targets provided. If necessary, adjust ingredient quantities or increase portions to achieve this goal.
+Finally, ensure that when these meals are combined over the week, the total nutritional intake closely matches the daily macro targets provided. If necessary, adjust ingredient quantities or increase portions to achieve this goal without significantly exceeding the targets.
 """
     return prompt

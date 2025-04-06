@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Card,
   CardHeader,
@@ -64,10 +64,7 @@ export default function MealPlanner() {
     }
   };
 
-  useEffect(() => {
-    fetchMealPlan();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [macroGoals, groceryList]);
+  // Removed automatic API calls on groceryList or macroGoals changes.
 
   const renderMealSection = (title: string, mealKey: string) => {
     const meal = mealPlan[mealKey];
@@ -75,7 +72,9 @@ export default function MealPlanner() {
 
     return (
       <div className="flex flex-col gap-2">
-        <h3 className="font-semibold text-lg">{title}: {meal.meal_name} ({meal.number_of_days} days)</h3>
+        <h3 className="font-semibold text-lg">
+          {title}: {meal.meal_name} ({meal.number_of_days} days)
+        </h3>
         <ul className="list-disc list-inside text-sm text-gray-700">
           {meal.ingredients.map((ingredient: any) => (
             <li key={ingredient.food_id}>
@@ -138,7 +137,10 @@ export default function MealPlanner() {
             </Button>
           </>
         ) : (
-          <div className="text-gray-500">No meal plan generated yet.</div>
+          <>
+            <div className="text-gray-500">No meal plan generated yet.</div>
+            <Button onClick={fetchMealPlan}>Generate Meal Plan</Button>
+          </>
         )}
       </CardContent>
     </Card>
