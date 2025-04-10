@@ -1,18 +1,21 @@
-import mysql.connector
+import psycopg2
 import pandas as pd
 from config import host, user, password, database, port
 
 def get_db_connection():
     try:
-        conn = mysql.connector.connect(
+        conn = psycopg2.connect(
             host=host,
             port=port,
-            user=user, 
+            user=user,
             password=password,
             database=database
         )
+        # Set schema search path so all queries default to your schema
+        with conn.cursor() as cursor:
+            cursor.execute('SET search_path TO canadian_nutrient_file;')
         return conn
-    except mysql.connector.Error as err:
+    except psycopg2.Error as err:
         print(f"Error establishing database connection: {err}")
         return None
 
@@ -22,6 +25,10 @@ df_food = pd.read_csv("food_name.csv", encoding="ISO-8859-1")
 def get_nutritional_info(food_id, multiplier=1):
     from mealplanner_util.class_def import FoodItemNutrition
     conn = get_db_connection()
+    if conn is None:
+        print("Database connection failed.")
+        return None
+
     try:
         cursor = conn.cursor()
 
@@ -37,9 +44,9 @@ def get_nutritional_info(food_id, multiplier=1):
 
         # Query for Nutrient Values for the selected metrics
         query = f"""
-            SELECT NutrientID, NutrientValue
+            SELECT "NutrientID", "NutrientValue"
             FROM nutrient_amount
-            WHERE FoodID = %s AND NutrientID IN ({','.join(['%s'] * len(nutrient_mapping))})
+            WHERE "FoodID" = %s AND "NutrientID" IN ({','.join(['%s'] * len(nutrient_mapping))})
         """
         cursor.execute(query, (food_id, *nutrient_mapping.keys()))
         results = cursor.fetchall()
@@ -65,7 +72,7 @@ def get_nutritional_info(food_id, multiplier=1):
 
         return nutritional_info
 
-    except mysql.connector.Error as err:
+    except psycopg2.Error as err:
         print(f"Error: {err}")
         return None
     finally:
